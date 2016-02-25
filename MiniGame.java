@@ -4,13 +4,15 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-public class MiniGame extends Frame
+public class MiniGame extends Frame implements ActionListener
 {
 	private GameBoard gb;
 	private ButtonGrid bgrid;
@@ -20,9 +22,11 @@ public class MiniGame extends Frame
 	private Quit quit;
 	private Reset reset;
 	private JFrame window;
+	private Tile tilesToSwap[];
+	
 	public MiniGame()
 	{
-		
+		tilesToSwap = new Tile[2];
 		newgame = new NewGame(){
 			public Dimension getPreferredSize() {
 			      return new Dimension(125, 50);
@@ -83,7 +87,7 @@ public class MiniGame extends Frame
 			   };
 		};
 		tgrid0_7.setBackground(new Color(127,23,52));
-		for(int i=1; i<9; i++)
+		/*for(int i=1; i<9; i++)
 		{
 			Tile tile = new Tile(){
 				public Dimension getPreferredSize() {
@@ -94,6 +98,11 @@ public class MiniGame extends Frame
 			tile.setLabel("Tile_"+i);
 			tgrid0_7.add(tile);
 			//Just For ShowCase
+		}*/
+		for(int i = 0; i < 8; i++)
+		{
+			tgrid0_7.getTiles()[i].addActionListener(this);
+			tgrid0_7.add(tgrid0_7.getTiles()[i]);
 		}
 		//-----------------------------------------------------
 		
@@ -107,7 +116,7 @@ public class MiniGame extends Frame
 			   };
 		};
 	    tgrid8_16.setBackground(new Color(127,23,52));
-		for(int i=9; i<17; i++)
+		/*for(int i=9; i<17; i++)
 		{
 			Tile tile = new Tile(){
 				public Dimension getPreferredSize() {
@@ -118,7 +127,12 @@ public class MiniGame extends Frame
 			tile.setLabel("Tile_"+i);
 			tgrid8_16.add(tile);
 			//Just For ShowCase
-		}
+		}*/
+	    for(int i = 8; i < 16; i++)
+	    {
+	    	tgrid8_16.getTiles()[i].addActionListener(this);
+			tgrid8_16.add(tgrid8_16.getTiles()[i]);
+	    }
 		//-----------------------------------------------------
 		
 		
@@ -132,7 +146,7 @@ public class MiniGame extends Frame
 			   };
 		};
 		gb.setBackground(new Color(243,229,171));
-		for(int i=0; i<16; i++)
+		/*for(int i=0; i<16; i++)
 		{
 			Tile tile = new Tile(){
 				public Dimension getPreferredSize() {
@@ -143,10 +157,13 @@ public class MiniGame extends Frame
 
 			gb.add(tile);
 			//Just For ShowCase
+		}*/
+		for(int i = 0; i < gb.getTiles().length; i++)
+		{
+			gb.getTiles()[i].addActionListener(this);
+			gb.add(gb.getTiles()[i]);
 		}
 		//-----------------------------------------------------
-		
-		
 		
 		JPanel border = new JPanel(){    
 			 public Dimension getPreferredSize() {
@@ -183,6 +200,27 @@ public class MiniGame extends Frame
 		window.setVisible(true);
 		
 	
+	}
+	
+	public void swapTiles(Tile t1, Tile t2)
+	{
+		String x;
+		x = t1.getLabel();
+		t1.setLabel(t2.getLabel());
+		t2.setLabel(x);
+	}
+	
+	public  void actionPerformed(ActionEvent e)
+	{
+		if(tilesToSwap[0] == null)
+			tilesToSwap[0] = (Tile) e.getSource();
+		else 
+		{
+			tilesToSwap[1] = (Tile) e.getSource();
+			swapTiles(tilesToSwap[0], tilesToSwap[1]);
+			tilesToSwap[0] = null;
+			tilesToSwap[1] = null;
+		}
 	}
 	
 	public static void dfault() //For Reset Button this will eventually change
