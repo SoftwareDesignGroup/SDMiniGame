@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -16,9 +18,30 @@ import javax.swing.JPanel;
 class TileGrid extends JPanel{
 	private GridLayout layout = new GridLayout(8,1);
 	private JPanel grid;
+	private Tile tiles[];
 	public TileGrid()
 	{
 		grid = new JPanel(layout);
-		
+		fillBoard();
+	}
+	
+	public void fillBoard()
+    {
+		tiles = new Tile[16];
+    	for(int i = 0; i < tiles.length; i++)
+    	{
+    		tiles[i] = new Tile(){
+				public Dimension getPreferredSize() {
+				      return new Dimension(90, 45);
+				    //Sets Dimensions 
+				   };
+    		};
+    		tiles[i].setLabel("Tile_" + (i + 1));
+    	}
+    }
+	
+	public Tile[] getTiles()
+	{
+		return tiles;
 	}
 }
