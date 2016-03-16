@@ -1,14 +1,5 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
+import java.awt.*;
+import javax.swing.*;
 
 
 
@@ -32,15 +23,27 @@ class GameBoard extends JPanel{
     	{
     		tiles[i] = new Tile(){
 				public Dimension getPreferredSize() {
-				      return new Dimension(90, 45);
+				      return new Dimension(80, 80);
 				    //Sets Dimensions 
 				   };
     		};
+    		
     	}
     }
 	
 	public Tile[] getTiles()
 	{
 		return tiles;
+	}
+	
+	public boolean gameWon()
+	{
+		boolean won = true;
+		for(int i = 0; i < tiles.length; i++)
+		{
+			if (!tiles[i].getIdentifier().equals("Tile_" + (i + 1)))
+				won = false;
+		}
+		return won;
 	}
 }
