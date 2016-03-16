@@ -2,6 +2,8 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 
 //RESET STILL NEEDS WORK
 //It uses the dfault method in MiniGame
@@ -12,13 +14,14 @@ public class Reset extends Button implements ActionListener{
 	public Reset()
 	{
 		bttn = new Button();
-		//bttn.setLabel("Reset");
 		bttn.addActionListener(this);
 		bttn.setEnabled(true);
 	}
+	
 	public void actionPerformed(ActionEvent e)
 	{
-		MiniGame.dfault();
+		JOptionPane reset = new JOptionPane();
+		reset.showMessageDialog(null, "Game has been reset!");		
 	}
-	
 }
+	
