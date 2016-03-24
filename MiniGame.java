@@ -141,11 +141,8 @@ public class MiniGame extends Frame implements ActionListener
 	{
 		if(e.getActionCommand() == "Reset")
 		{
-		    tgrid0_7.randomizeResetTiles();
-            tgrid8_16.randomizeResetTiles();
 			for(int i = 0; i < gb.getTiles().length; i++)
 			{
-			    
 				gb.getTiles()[i].setIcon(null);
 				gb.getTiles()[i].setIdentifier(null);
 				if(i < 8)
@@ -166,8 +163,8 @@ public class MiniGame extends Frame implements ActionListener
 			{
 				tgrid0_7.getTiles()[i].setIcon(null);
 				tgrid8_16.getTiles()[i].setIcon(null);
-				gb.getTiles()[i].setIcon(solve.getWinningTiles().getMasterTiles()[i].getIcon());
-				gb.getTiles()[i].setIdentifier(solve.getWinningTiles().getMasterTiles()[i].getIdentifier());
+				gb.getTiles()[i].setIcon(solve.getWinningTiles().getTiles()[i].getIcon());
+				gb.getTiles()[i].setIdentifier(solve.getWinningTiles().getTiles()[i].getIdentifier());
 			}
 			gameWon();
 		}
