@@ -9,11 +9,16 @@ import javax.swing.*;
 class GameBoard extends JPanel{
 	private JPanel board;
 	private Tile tiles[];
-	private GridLayout layout = new GridLayout(16,16);
+	private GridBagLayout layout = new GridBagLayout();
+	private GridBagConstraints gbCon = new GridBagConstraints();
+	//private GridLayout layout = new GridLayout(16,16);
+	private final Dimension TILESIZE = new Dimension(80,80);
 	public GameBoard()
 	{
-		board = new JPanel(layout);
-		fillBoard();
+	  gbCon.weightx = 1;
+	  gbCon.weighty = 1;
+       board = new JPanel(layout);
+       fillBoard();
 	}
 	
 	public void fillBoard()
@@ -21,13 +26,8 @@ class GameBoard extends JPanel{
 		tiles = new Tile[16];
     	for(int i = 0; i < tiles.length; i++)
     	{
-    		tiles[i] = new Tile(){
-				public Dimension getPreferredSize() {
-				      return new Dimension(80, 80);
-				    //Sets Dimensions 
-				   };
-    		};
-    		
+    		tiles[i] = new Tile();
+    		tiles[i].setPreferredSize(TILESIZE);
     	}
     }
 	

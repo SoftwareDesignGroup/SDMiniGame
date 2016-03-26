@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 
 
 //RESET STILL NEEDS WORK
-//It uses the dfault method in MiniGame
 //I was thinking that reset could call that method which would 
 //then reset only the tiles
 public class Reset extends Button implements ActionListener{

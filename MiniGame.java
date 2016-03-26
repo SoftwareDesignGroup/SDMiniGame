@@ -18,62 +18,49 @@ public class MiniGame extends Frame implements ActionListener
 	private Solve solve;
 	private JFrame window;
 	private Tile tilesToSwap[];
+	private final Dimension BTTNDIMENSION = new Dimension(125,50);
+	private final Dimension BGRIDSIZE = new Dimension(0, 65);
+	private final Dimension BORDERSIZE = new Dimension(0, 100);
+	private final Dimension TGRIDSIZE = new Dimension(175, 0);
+	private final Dimension GBSIZE = new Dimension(400, 400);
 	
 	public MiniGame()
 	{
+	    
+	 
 		tilesToSwap = new Tile[2];
-		newgame = new NewGame(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(125, 50);
-			      //Sets Dimensions
-			   };
-
-		};
+		
+		newgame = new NewGame();
+		newgame.setPreferredSize(BTTNDIMENSION);
 		newgame.setLabel("New Game");
 		newgame.addActionListener(newgame);
 		
 		//-----------------------------------------------------		
 		
-		quit = new Quit(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(125, 50);
-			    //Sets Dimensions
-			};
-		};
+		quit = new Quit();
+		quit.setPreferredSize(BTTNDIMENSION);
 		quit.setLabel("Quit");
 		quit.addActionListener(quit);
 		
 		//-----------------------------------------------------		
 		
-		reset = new Reset(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(125, 50);
-			    //Sets Dimensions
-			   };
-		};
+		reset = new Reset();
+		reset.setPreferredSize(BTTNDIMENSION);
 		reset.setLabel("Reset");		
 		reset.addActionListener(this);
 		
 		//-----------------------------------------------------	
 		
-		solve = new Solve(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(125, 50);
-			    //Sets Dimensions
-			   };
-		};
+		solve = new Solve();
+		solve.setPreferredSize(BTTNDIMENSION);
 		solve.setLabel("Solve");
 		solve.addActionListener(this);
 		
 		//-----------------------------------------------------
 
-		bgrid = new ButtonGrid(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(0, 65);
-			    //Sets Dimensions
-			   };
-	
-		};
+		bgrid = new ButtonGrid();
+		bgrid.setPreferredSize(BGRIDSIZE);
+		
 		bgrid.add(newgame).setLocation(1, 1);
 		bgrid.add(quit).setLocation(1, 2);
 		bgrid.add(reset).setLocation(1,3);
@@ -84,12 +71,8 @@ public class MiniGame extends Frame implements ActionListener
 		
 		//-----------------------------------------------------
 		
-		JPanel border = new JPanel(){    
-			 public Dimension getPreferredSize() {
-			      return new Dimension(0, 100);
-			      //Sets Dim of South Border
-			   };
-		};
+		JPanel border = new JPanel();
+		border.setPreferredSize(BORDERSIZE);
 		border.setBackground(new Color(127,23,52));
 		
 		//------------------------------------------------------
@@ -98,7 +81,8 @@ public class MiniGame extends Frame implements ActionListener
 		gamePanel.setBackground(new Color(243,229,171));
 		gamePanel.setLayout(new GridBagLayout());
 		gamePanel.add(gb,new GridBagConstraints());
-		//All of this is for proper centering but still has issues
+		
+		//All of this is for proper centering 
 		
 		//-------------------------------------------------------------
 		
@@ -126,34 +110,42 @@ public class MiniGame extends Frame implements ActionListener
 		x = t1.getIdentifier();
 		t1.setIdentifier(t2.getIdentifier());
 		t2.setIdentifier(x);
-		//String y;
-		//y = t1.getText();
-		//t1.setText(t2.getText());
-		//t2.setText(y);
-		ImageIcon y = new ImageIcon();
-		y = (ImageIcon) t1.getIcon();
-		t1.setIcon(t2.getIcon());
-		t2.setIcon(y);
-		t1.setBorder(BorderFactory.createEmptyBorder());
+		String y;
+		y = t1.getText();
+		t1.setText(t2.getText());
+		t2.setText(y);
+		//ImageIcon y = new ImageIcon();
+		//y = (ImageIcon) t1.getIcon();
+		//t1.setIcon(t2.getIcon());
+		//t2.setIcon(y);
+		t1.setBorder(UIManager.getBorder("Button.border"));
+		t2.setBorder(UIManager.getBorder("Button.border"));
+		
 	}
 	
 	public  void actionPerformed(ActionEvent e)
 	{
 		if(e.getActionCommand() == "Reset")
 		{
+		    tgrid0_7.randomizeResetTiles();
+            tgrid8_16.randomizeResetTiles();
 			for(int i = 0; i < gb.getTiles().length; i++)
 			{
-				gb.getTiles()[i].setIcon(null);
+			    
+				//gb.getTiles()[i].setIcon(null);
 				gb.getTiles()[i].setIdentifier(null);
+				gb.getTiles()[i].setText(null);
 				if(i < 8)
 				{
 					tgrid0_7.getTiles()[i].setIdentifier(tgrid0_7.getResetTiles()[i].getIdentifier());
-					tgrid0_7.getTiles()[i].setIcon(tgrid0_7.getResetTiles()[i].getIcon());
+					tgrid0_7.getTiles()[i].setText(tgrid0_7.getResetTiles()[i].getText());
+					//tgrid0_7.getTiles()[i].setIcon(tgrid0_7.getResetTiles()[i].getIcon());
 				}
 				else
 				{
 					tgrid8_16.getTiles()[i].setIdentifier(tgrid8_16.getResetTiles()[i].getIdentifier());
-					tgrid8_16.getTiles()[i].setIcon(tgrid8_16.getResetTiles()[i].getIcon());
+					tgrid8_16.getTiles()[i].setText(tgrid0_7.getResetTiles()[i].getText());
+					//tgrid8_16.getTiles()[i].setIcon(tgrid8_16.getResetTiles()[i].getIcon());
 				}
 			}
 		}
@@ -161,10 +153,13 @@ public class MiniGame extends Frame implements ActionListener
 		{
 			for(int i = 0; i < gb.getTiles().length; i++)
 			{
-				tgrid0_7.getTiles()[i].setIcon(null);
-				tgrid8_16.getTiles()[i].setIcon(null);
-				gb.getTiles()[i].setIcon(solve.getWinningTiles().getTiles()[i].getIcon());
-				gb.getTiles()[i].setIdentifier(solve.getWinningTiles().getTiles()[i].getIdentifier());
+				//tgrid0_7.getTiles()[i].setIcon(null);
+				//tgrid8_16.getTiles()[i].setIcon(null);
+				tgrid0_7.getTiles()[i].setText(null);
+                tgrid8_16.getTiles()[i].setText(null);
+				//gb.getTiles()[i].setIcon(solve.getWinningTiles().getMasterTiles()[i].getIcon());
+				gb.getTiles()[i].setIdentifier(solve.getWinningTiles().getMasterTiles()[i].getIdentifier());
+				gb.getTiles()[i].setText(solve.getWinningTiles().getMasterTiles()[i].getText());
 			}
 			gameWon();
 		}
@@ -198,28 +193,17 @@ public class MiniGame extends Frame implements ActionListener
 	
 	public void insertGameTiles()
 	{
-		tgrid0_7 = new TileGrid(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(175, 0);
-			    //Sets Dimensions
-			   };
-		};
+        
+		tgrid0_7 = new TileGrid();
+		tgrid0_7.setPreferredSize(TGRIDSIZE);
 		tgrid0_7.setBackground(new Color(127,23,52));	
 		
-		tgrid8_16 = new TileGrid(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(175, 0);
-			    //Sets Dimensions
-			   };
-		};
+		tgrid8_16 = new TileGrid();
+		tgrid8_16.setPreferredSize(TGRIDSIZE);
 	    tgrid8_16.setBackground(new Color(127,23,52));	
 		
-		gb = new GameBoard(){
-			public Dimension getPreferredSize() {
-			      return new Dimension(400,400);
-			    //Sets Dimensions
-			   };
-		};
+		gb = new GameBoard();
+		gb.setPreferredSize(GBSIZE);
 		gb.setBackground(new Color(243,229,171));
 		
 		for(int i = 0; i < 8; i++)
